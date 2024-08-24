@@ -32,6 +32,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 api("com.rickclephas.kmp:kmp-observableviewmodel-core")
+                implementation("co.touchlab:kermit:2.0.4")
 
                 implementation(compose.runtime)
                 implementation(compose.ui)

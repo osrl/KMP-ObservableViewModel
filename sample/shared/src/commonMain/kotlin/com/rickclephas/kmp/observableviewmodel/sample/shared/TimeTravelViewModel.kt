@@ -1,11 +1,21 @@
 package com.rickclephas.kmp.observableviewmodel.sample.shared
 
+import co.touchlab.kermit.Logger
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import com.rickclephas.kmp.observableviewmodel.*
 import kotlinx.coroutines.flow.*
 import kotlin.random.Random
 
 open class TimeTravelViewModel: ViewModel() {
+    
+    init {
+        Logger.i("TimeTravelViewModel") { "init $this" }
+    }
+
+    override fun onCleared() {
+        Logger.i("TimeTravelViewModel") { "clear $this" }
+        super.onCleared()
+    }
 
     private val clockTime = Clock.time
 

@@ -8,60 +8,34 @@
 import SwiftUI
 import KMPObservableViewModelSwiftUI
 
+
 struct ContentView: View {
-    
     @StateViewModel var viewModel = TimeTravelViewModel()
     
-    private var isFixedTimeBinding: Binding<Bool> {
-        Binding { viewModel.isFixedTime } set: { isFixedTime in
-            if isFixedTime {
-                viewModel.stopTime()
-            } else {
-                viewModel.startTime()
-            }
-        }
-    }
+    @State private var input: String = ""
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack{
             Spacer()
             Group {
-                Text("Actual time:")
-                Text(viewModel.actualTime)
-                    .font(.system(size: 20))
-            }
-            Group {
-                Spacer().frame(height: 24)
-                Text("Travel effect:")
-                Text(viewModel.travelEffect?.description ?? "nil")
-                    .font(.system(size: 20))
-            }
-            Group {
-                Spacer().frame(height: 24)
-                Text("Current time:")
-                Text(viewModel.currentTime)
-                    .font(.system(size: 20))
-            }
-            Group {
-                Spacer().frame(height: 24)
-                HStack {
-                    Toggle("", isOn: isFixedTimeBinding).labelsHidden()
-                    Text("Fixed time")
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("Dismiss")
                 }
-            }
-            Group {
-                Spacer().frame(height: 24)
-                Button("Time travel") {
-                    viewModel.timeTravel()
+                ShortMessagesRow()
+                if useTextInput {
+                    TextField("type_something", text: $input)
                 }
-            }
-            Group {
-                Spacer().frame(height: 24)
-                Button("Reset") {
-                    viewModel.resetTime()
-                }.foregroundColor(viewModel.isResetDisabled ? Color.red : Color.green)
             }
             Spacer()
+        }
+        .onAppear {
+            print("TimeTravelViewModel", "onAppear")
+        }
+        .onDisappear {
+            print("TimeTravelViewModel", "onDisappear")
         }
     }
 }
@@ -71,3 +45,26 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+struct ShortMessagesRow: View {
+    var content: some View {
+        HStack(spacing: 8) {
+            ForEach(
+                ["1", "2", "3"],
+                id:\.self
+            ) { message in
+                Text(message)
+            }
+        }.padding(.horizontal, 8)
+    }
+    var body: some View {
+        if useScrollView {
+            ScrollView(.horizontal, showsIndicators: false) {
+                content
+            }
+        } else {
+            content
+        }
+    }
+}
+
