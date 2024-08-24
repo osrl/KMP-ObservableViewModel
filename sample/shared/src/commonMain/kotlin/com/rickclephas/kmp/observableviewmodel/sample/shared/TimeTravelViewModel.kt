@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.*
 import kotlin.random.Random
 
 open class TimeTravelViewModel: ViewModel() {
-    
+
     init {
         Logger.i("TimeTravelViewModel") { "init $this" }
     }
